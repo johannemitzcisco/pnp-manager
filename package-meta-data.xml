@@ -1,6 +1,6 @@
 <ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
   <name>pnp-manager</name>
-  <package-version>1.0</package-version>
+  <package-version>0.1.0</package-version>
   <description>Customer facing services and actions for Pnp System Management</description>
   <ncs-min-version>4.7</ncs-min-version>
 
