@@ -3,47 +3,16 @@ module pnp-manager {
   namespace "http://example.com/pnp-manager";
   prefix pnp-manager;
 
-  import ietf-inet-types {
-    prefix inet;
-  }
-  import tailf-common {
-    prefix tailf;
-  }
-  import tailf-ncs {
-    prefix ncs;
-  }
-
   description
-    "Bla bla...";
+    "Customer facing services and actions for Pnp System Management";
 
-  revision 2016-01-01 {
+  revision 2019-07-10 {
     description
       "Initial revision.";
   }
 
-  list pnp-manager {
-    description "This is an RFS skeleton service";
+  container pnp-manager {
+    description "Pnp System Management";
 
-    key name;
-    leaf name {
-      tailf:info "Unique service id";
-      tailf:cli-allow-range;
-      type string;
-    }
-
-    uses ncs:service-data;
-    ncs:servicepoint pnp-manager-servicepoint;
-
-    // may replace this with other ways of refering to the devices.
-    leaf-list device {
-      type leafref {
-        path "/ncs:devices/ncs:device/ncs:name";
-      }
-    }
-
-    // replace with your own stuff here
-    leaf dummy {
-      type inet:ipv4-address;
-    }
   }
 }

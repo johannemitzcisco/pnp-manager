@@ -1,0 +1,17 @@
+<pnp xmlns="http://tail-f.com/ned/cisco/pnp">
+  <map>
+    <id>{name}</id>
+    <serial>{pnp-id}</serial>
+    <device-name>{nso-name}</device-name>
+    <authgroup>{$AUTHGROUP}</authgroup>
+    <username>{$USERNAME}</username>
+    <port>{$PORT}</port>
+    <day0-file>{$DAY0-FILE}</day0-file>
+    <cfg-properties>
+      <variable>
+        <name>HOSTNAME</name>
+        <value>{hostname}</value>
+      </variable>
+    </cfg-properties>
+  </map>
+</pnp>

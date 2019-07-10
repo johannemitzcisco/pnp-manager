@@ -3,67 +3,42 @@ import ncs
 from ncs.application import Service
 
 
-# ------------------------
-# SERVICE CALLBACK EXAMPLE
-# ------------------------
-class ServiceCallbacks(Service):
-
-    # The create() callback is invoked inside NCS FASTMAP and
-    # must always exist.
+class PnPDevice(Service):
     @Service.create
     def cb_create(self, tctx, root, service, proplist):
         self.log.info('Service create(service=', service._path, ')')
 
         vars = ncs.template.Variables()
-        vars.add('DUMMY', '127.0.0.1')
         template = ncs.template.Template(service)
-        template.apply('pnp-manager-template', vars)
+        for rolename in service.role:
+            # This will use the last role with PnP infor in the devices roles.
+            # Need to modify the service model to restrict to only one role
+            # with PnP info 
+            role = root.device_role[rolename]
+            if role.pnp.authgroup is not None:
+                vars.add('AUTHGROUP', role.pnp.authgroup)
+            if role.pnp.username is not None:
+                vars.add('USERNAME', role.pnp.username)
+            if role.pnp.port is not None:
+                vars.add('PORT', role.pnp.port)
+            if role.pnp.day0_file is not None:
+                vars.add('DAY0-FILE', role.pnp.day0_file)
 
-    # The pre_modification() and post_modification() callbacks are optional,
-    # and are invoked outside FASTMAP. pre_modification() is invoked before
-    # create, update, or delete of the service, as indicated by the enum
-    # ncs_service_operation op parameter. Conversely
-    # post_modification() is invoked after create, update, or delete
-    # of the service. These functions can be useful e.g. for
-    # allocations that should be stored and existing also when the
-    # service instance is removed.
+        if service.authgroup is not None:
+            vars.add('AUTHGROUP', service.authgroup)
+        if service.username is not None:
+            vars.add('USERNAME', service.username)
+        if service.port is not None:
+            vars.add('PORT', service.port)
+        if service.day0_file is not None:
+            vars.add('DAY0-FILE', service.day0_file)
 
-    # @Service.pre_lock_create
-    # def cb_pre_lock_create(self, tctx, root, service, proplist):
-    #     self.log.info('Service plcreate(service=', service._path, ')')
+        template.apply('pnp-manager-device-pnp-map', vars)
 
-    # @Service.pre_modification
-    # def cb_pre_modification(self, tctx, op, kp, root, proplist):
-    #     self.log.info('Service premod(service=', kp, ')')
-
-    # @Service.post_modification
-    # def cb_post_modification(self, tctx, op, kp, root, proplist):
-    #     self.log.info('Service premod(service=', kp, ')')
-
-
-# ---------------------------------------------
-# COMPONENT THREAD THAT WILL BE STARTED BY NCS.
-# ---------------------------------------------
 class Main(ncs.application.Application):
     def setup(self):
-        # The application class sets up logging for us. It is accessible
-        # through 'self.log' and is a ncs.log.Log instance.
         self.log.info('Main RUNNING')
-
-        # Service callbacks require a registration for a 'service point',
-        # as specified in the corresponding data model.
-        #
-        self.register_service('pnp-manager-servicepoint', ServiceCallbacks)
-
-        # If we registered any callback(s) above, the Application class
-        # took care of creating a daemon (related to the service/action point).
-
-        # When this setup method is finished, all registrations are
-        # considered done and the application is 'started'.
+        self.register_service('pnp-device-servicepoint', PnPDevice)
 
     def teardown(self):
-        # When the application is finished (which would happen if NCS went
-        # down, packages were reloaded or some error occurred) this teardown
-        # method will be called.
-
         self.log.info('Main FINISHED')

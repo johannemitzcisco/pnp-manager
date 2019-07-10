@@ -10,13 +10,25 @@ FXS = $(SRC:yang/%.yang=../load-dir/%.fxs)
 
 ## Uncomment and patch the line below if you have a dependency to a NED
 ## or to other YANG files
-# YANGPATH += ../../<ned-name>/src/ncsc-out/modules/yang \
-# 	../../<pkt-name>/src/yang
+YANGPATH += ../../service-base/src/yang
 
 NCSCPATH   = $(YANGPATH:%=--yangpath %)
 YANGERPATH = $(YANGPATH:%=--path %)
+PYTHONSRC += $(wildcard ../python/pnp_manager/*.py)
+PYTHONBIN += $(wildcard ../python/pnp_manager/*.pyc)
+TEMPLATESRC = $(wildcard loaddata/*.xml)
 
-fxs: $(DIRS) $(FXS)
+fxs: $(PYTHONSRC) $(PYTHONBIN) $(DIRS) $(FXS) $(TEMPLATESRC)
+
+$(PYTHONSRC): .FORCE
+	python -m py_compile $@
+.PHONY: .FORCE
+
+$(TEMPLATESRC): .FORCE
+	cp $@ ../load-dir
+
+$(PYTHONBIN): .FORCE
+	rm -f $@
 
 $(DIRS):
 	mkdir -p $@

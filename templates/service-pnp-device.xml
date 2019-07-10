@@ -1,0 +1,13 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <pnp-device xmlns="http://com/example/pnp-device">
+    <name>{name}</name>
+    <nso-name>{nso-name}</nso-name>
+    <hostname>{hostname}</hostname>
+    <pnp-id>{pnp-id}</pnp-id>
+    <role>{role}</role>
+    <authgroup>{authgroup}</authgroup>
+    <username>{username}</username>
+    <port>{port}</port>
+    <day0-file>{day0-file}</day0-file>
+  </pnp-device>
+</config>
