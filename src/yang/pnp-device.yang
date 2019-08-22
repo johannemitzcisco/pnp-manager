@@ -15,11 +15,24 @@ module pnp-device {
     leaf username {
       type string;
     }
+    leaf password {
+      type string;
+    }
     leaf port {
+      default "22";
       type inet:port-number;
     }
     leaf day0-file {
       type string;
+    }
+    list cfg-file-variable {
+      key name;
+      leaf name {
+        type string;
+      }
+      leaf value {
+        type string;
+      }
     }
   }
 
@@ -30,7 +43,7 @@ module pnp-device {
       description "Device's unique id (eg. Serial Number)";
       type string;
     }
-    uses pnp-device:pnp-grouping;
+    //uses pnp-device:pnp-grouping;
   }
 
   augment /device:device-role {

@@ -5,12 +5,25 @@
     <device-name>{nso-name}</device-name>
     <authgroup>{$AUTHGROUP}</authgroup>
     <username>{$USERNAME}</username>
+    <password>{$PASSWORD}</password>
     <port>{$PORT}</port>
     <day0-file>{$DAY0-FILE}</day0-file>
     <cfg-properties>
       <variable>
         <name>HOSTNAME</name>
         <value>{hostname}</value>
+      </variable>
+      <variable>
+        <name>NSO_USERNAME</name>
+        <value>{$USERNAME}</value>
+      </variable>
+      <variable>
+        <name>NSO_PASSWORD</name>
+        <value>{$PASSWORD}</value>
+      </variable>
+      <variable>
+        <name>{cfg-file-variable/name}</name>
+        <value>{value}</value>
       </variable>
     </cfg-properties>
   </map>

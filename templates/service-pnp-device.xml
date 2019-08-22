@@ -4,10 +4,17 @@
     <nso-name>{nso-name}</nso-name>
     <hostname>{hostname}</hostname>
     <pnp-id>{pnp-id}</pnp-id>
-    <role>{role}</role>
+    <role>
+        <name>{role/name}</name>
+    </role>
     <authgroup>{authgroup}</authgroup>
     <username>{username}</username>
+    <password>{password}</password>
     <port>{port}</port>
     <day0-file>{day0-file}</day0-file>
+    <cfg-file-variable>
+        <name>{cfg-file-variable/name}</name>
+        <value>{value}</value>
+    </cfg-file-variable>
   </pnp-device>
 </config>
